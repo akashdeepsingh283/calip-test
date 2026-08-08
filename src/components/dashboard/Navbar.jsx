@@ -28,7 +28,7 @@ export default function Navbar({ activePage = "overview" }) {
               width={95}
               height={40}
               priority
-              className="h-[40px] w-auto"
+              style={{ width: "auto", height: "40px" }}
             />
           </Link>
 

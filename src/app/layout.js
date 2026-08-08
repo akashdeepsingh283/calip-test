@@ -9,6 +9,8 @@ const inter = Inter({
   variable: "--font-sans",
   subsets: ["latin"],
   display: "swap",
+  adjustFontFallback: true,
+  preload: true,
 });
 
 const spaceGrotesk = Space_Grotesk({
@@ -16,6 +18,11 @@ const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
   display: "swap",
+  adjustFontFallback: true,
+  // Preloading all 5 weights on every page causes unused preload warnings
+  // on pages where headings aren't immediately rendered. Keyframe/system
+  // fonts fall back while Space Grotesk loads on demand.
+  preload: false,
 });
 
 export const metadata = {
