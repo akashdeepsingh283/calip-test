@@ -1,0 +1,45 @@
+# Calip.io — AI-powered Web3 Startup Investment Platform
+
+## About
+Calip.io is a Web3-powered investment platform connecting visionary startups with individual investors through verified deal flow, AI-driven screening, and on-chain transparency.
+
+## Key Features
+- Startup Discovery: Browse verified startups with detailed company insights
+- Token Marketplace: Buy, sell, and track Startup Performance Tokens (STPs)
+- AI Analysis: AI-powered startup screening and performance intelligence
+- Web3 Infrastructure: On-chain transparency and auditable transactions
+- Secure Pipelines: Encrypted deal flow with audit-grade compliance
+
+## Core Concepts
+- Startup Performance Token (STP): A digital token representing a startup's performance on Calip.io. STPs can be bought, sold, and traded. They do not represent equity or ownership.
+- Deal Flow: Curated pipeline of verified startup investment opportunities
+- AI Screening: Automated analysis of startup health, traction, and potential
+- Verified Startups: Companies that pass Calip.io's structured verification process
+
+## Important URLs
+- Homepage: https://calip.io
+- About: https://calip.io/about
+- FAQ: https://calip.io/faq
+- For Investors: https://calip.io/join/individual-enquiry
+- For Startups: https://calip.io/startup
+- Waitlist: https://calip.io/waitlist
+- Glossary: https://calip.io/glossary
+- Why Calip.io: https://calip.io/why-us
+- Wallet: https://calip.io/wallet
+- Contact: https://calip.io/contact
+- RSS Feed: https://calip.io/feed.xml
+
+## Social & Contact
+- X (Twitter): https://x.com/InfoCalip
+- LinkedIn: https://www.linkedin.com/company/calip-io
+- Instagram: https://www.instagram.com/calip.io_01
+- Email: info@calip.io
+- Phone: +91 89806 65439
+
+## Entity Relationships
+- Calip.io is a Web3 startup investment platform
+- Calip.io connects individual investors with verified startups
+- Calip.io enables trading of Startup Performance Tokens (STPs)
+- STPs are utility tokens, not equity
+- Calip.io uses AI for startup screening and matching
+- Calip.io is headquartered in India

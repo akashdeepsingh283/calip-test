@@ -1,0 +1,19 @@
+<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a0f"/>
+      <stop offset="100%" style="stop-color:#1a1a2e"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8B7CFF"/>
+      <stop offset="100%" style="stop-color:#A99BFF"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="1000" cy="100" r="300" fill="rgba(139,124,255,0.08)"/>
+  <circle cx="200" cy="500" r="250" fill="rgba(169,155,255,0.05)"/>
+  <text x="80" y="250" font-family="Space Grotesk, sans-serif" font-size="72" font-weight="700" fill="#fcfbf8">Calip.io</text>
+  <text x="80" y="330" font-family="Inter, sans-serif" font-size="32" fill="url(#accent)">Web3 Startup Investment Platform</text>
+  <text x="80" y="390" font-family="Inter, sans-serif" font-size="22" fill="#9c9a94">Verified Deal Flow · AI Screening · On-Chain Transparency</text>
+  <rect x="80" y="450" width="200" height="4" rx="2" fill="url(#accent)"/>
+</svg>

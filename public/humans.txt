@@ -1,0 +1,22 @@
+/* TEAM */
+Calip.io is built by a passionate team dedicated to democratizing startup investment through Web3 technology.
+
+/* SITE */
+Built with: Next.js 16, React 19, Tailwind CSS v4
+Fonts: Inter, Space Grotesk (via next/font)
+Animations: Framer Motion, Lenis
+Icons: Lucide React
+
+/* CONTACT */
+Email: info@calip.io
+Phone: +91 89806 65439
+
+/* SOCIAL */
+X (Twitter): https://x.com/InfoCalip
+LinkedIn: https://www.linkedin.com/company/calip-io
+Instagram: https://www.instagram.com/calip.io_01
+
+/* COLOPHON */
+First launched: 2025
+Language: English
+Country: India

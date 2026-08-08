@@ -1,0 +1,1011 @@
+@import "tailwindcss";
+@import "lenis/dist/lenis.css";
+
+/* --- Design System Theme --- */
+@theme inline {
+  --color-background: #0a0a0f;
+  --color-foreground: #fcfbf8;
+  --color-muted-foreground: #9c9a94;
+  --color-primary: #8B7CFF;
+  --color-primary-glow: #A99BFF;
+  --font-sans: var(--font-sans);
+  --font-display: var(--font-display);
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+}
+
+html.menu-open {
+  overflow: hidden !important;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+/* Promote the scroll container to a GPU layer for jitter-free,
+   high-refresh scrolling. Only the transform/scroll-position are
+   composited — avoids repaint on every scroll frame. */
+html.lenis,
+html.lenis body {
+  will-change: scroll-position;
+  -webkit-overflow-scrolling: touch;
+}
+
+.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis-stopped {
+  overflow: clip;
+}
+
+.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+::selection {
+  background-color: rgba(139, 124, 255, 0.3);
+  color: #fff;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0a0f;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(139, 124, 255, 0.3);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(139, 124, 255, 0.5);
+}
+
+/* ============================================================
+   Glassmorphism Utilities
+   ============================================================ */
+.glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.glass-strong {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ============================================================
+   Button / Glow Utilities — Premium Micro-Interactions
+   ============================================================ */
+.btn-primary-glow {
+  background: linear-gradient(135deg, #8B7CFF 0%, #A99BFF 100%);
+  box-shadow: 0 0 20px rgba(139, 124, 255, 0.3), 0 0 60px rgba(139, 124, 255, 0.1);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-primary-glow:hover {
+  box-shadow: 0 0 40px rgba(139, 124, 255, 0.5), 0 0 100px rgba(139, 124, 255, 0.2), 0 4px 20px rgba(139, 124, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+/* ============================================================
+   Energy Circuit — border charge animation (GPU-friendly).
+   No slow box-shadow keyframes; shadow is applied directly on
+   hover for an instant premium feel.
+   ============================================================ */
+.btn-energy-strong.btn-energy:hover {
+  box-shadow:
+    0 0 50px rgba(139, 124, 255, 0.3),
+    0 0 100px rgba(139, 124, 255, 0.15),
+    0 0 200px rgba(139, 124, 255, 0.07);
+}
+
+.btn-energy {
+  position: relative;
+  isolation: isolate;
+}
+
+.btn-energy:hover {
+  box-shadow:
+    0 0 30px rgba(139, 124, 255, 0.15),
+    0 0 60px rgba(139, 124, 255, 0.08),
+    0 0 120px rgba(139, 124, 255, 0.04);
+}
+
+/* Activation glow — visible instantly on hover */
+.btn-energy::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: radial-gradient(
+    ellipse at 50% 50%,
+    rgba(139, 124, 255, 0.08) 0%,
+    rgba(169, 155, 255, 0.03) 40%,
+    transparent 65%
+  );
+  box-shadow:
+    inset 0 0 0 1px rgba(139, 124, 255, 0.15),
+    0 0 30px rgba(139, 124, 255, 0.05);
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.12s ease;
+}
+
+.btn-energy:hover::after {
+  opacity: 1;
+}
+
+/* Base state: hidden, stroke-dashoffset managed by JS */
+.charge-trail,
+.charge-particle {
+  opacity: 0;
+}
+
+.btn-primary-glow:active {
+  transform: translateY(0) scale(0.97);
+  box-shadow: 0 0 15px rgba(139, 124, 255, 0.3);
+  transition-duration: 0.1s;
+}
+
+.btn-primary-glow:disabled {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.btn-primary-glow:disabled:hover {
+  transform: none;
+  box-shadow: 0 0 20px rgba(139, 124, 255, 0.3), 0 0 60px rgba(139, 124, 255, 0.1);
+}
+
+/* Gradient text effect */
+.text-gradient {
+  background: linear-gradient(135deg, #8B7CFF 0%, #D6CCFF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Grid pattern overlay */
+.bg-grid {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* Noise texture overlay */
+.noise::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.015;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ============================================================
+   Motion Design System — Timing & Easing Tokens
+   ============================================================ */
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-enter {
+  animation: page-enter 300ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Card hover — subtle lift + enhanced shadow */
+.motion-lift {
+  transition: transform 400ms cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 400ms cubic-bezier(0.22, 1, 0.36, 1),
+              border-color 400ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.motion-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25), 0 4px 16px rgba(139, 124, 255, 0.06), 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+/* Glass-strong interactive hover state */
+.glass-strong.motion-lift:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* ============================================================
+   Depth System — Elevation, Shadow & Physical Presence
+   ============================================================ */
+
+.depth-1 {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.depth-2 {
+  box-shadow:
+    0 4px 16px rgba(0,0,0,0.25),
+    0 2px 4px rgba(0,0,0,0.15),
+    0 0 0 1px rgba(255,255,255,0.03);
+}
+
+.depth-3 {
+  box-shadow:
+    0 8px 32px rgba(0,0,0,0.3),
+    0 2px 8px rgba(0,0,0,0.2),
+    0 0 0 1px rgba(255,255,255,0.04);
+}
+
+.depth-hover {
+  translate: 0 0;
+  transition: translate 400ms cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 400ms cubic-bezier(0.22, 1, 0.36, 1),
+              border-color 400ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.depth-hover:hover {
+  translate: 0 -2px;
+  box-shadow:
+    0 12px 40px rgba(0,0,0,0.3),
+    0 4px 12px rgba(0,0,0,0.2),
+    0 0 0 1px rgba(255,255,255,0.06);
+}
+
+@media (pointer: coarse) {
+  .depth-hover:hover {
+    translate: none;
+    box-shadow: none;
+  }
+}
+
+/* Animated underline for links */
+.motion-underline {
+  position: relative;
+}
+
+.motion-underline::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: currentColor;
+  transition: width 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.motion-underline:hover::after {
+  width: 100%;
+}
+
+/* Button active press feel */
+.btn-press:active {
+  transform: scale(0.98);
+  transition-duration: 0.1s;
+}
+
+/* Navbar scrolled state */
+.navbar-scrolled {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* ============================================================
+   Keyframe Animations
+   ============================================================ */
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-4px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes bounce-subtle-1 {
+  0%, 100% { transform: translateY(-3px); }
+  50% { transform: translateY(8px); }
+}
+
+@keyframes bounce-subtle-2 {
+  0%, 100% { transform: translateY(8px); }
+  50% { transform: translateY(-3px); }
+}
+
+@keyframes rotate-slow {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes drift-slow {
+  0%, 100% { transform: translateY(0px) translateX(0px); }
+  33% { transform: translateY(-6px) translateX(4px); }
+  66% { transform: translateY(3px) translateX(-3px); }
+}
+
+/* ============================================================
+   Animation Utility Classes
+   ============================================================ */
+.animate-float-slow {
+  animation: float-slow 6s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 6s ease-in-out infinite;
+}
+
+.animate-bounce-subtle-1 {
+  animation: bounce-subtle-1 3s ease-in-out infinite;
+}
+
+.animate-bounce-subtle-2 {
+  animation: bounce-subtle-2 3s ease-in-out infinite;
+}
+
+.animate-rotate-slow {
+  animation: rotate-slow 20s linear infinite;
+}
+
+.animate-drift-slow {
+  animation: drift-slow 8s ease-in-out infinite;
+}
+
+/* ============================================================
+   Premium GlowField — single GPU-only rotation, dot-filler
+   Replaces stacked 3-orb blur layers. Pure CSS, no JS.
+   ============================================================ */
+.glow-field {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  contain: paint;
+  pointer-events: none;
+}
+
+.glow-field__rotor {
+  position: absolute;
+  left: 50%;
+  top: var(--glow-position, 50% 0%);
+  width: var(--glow-size, 420px);
+  height: var(--glow-size, 420px);
+  transform: translate(-50%, -50%);
+  will-change: transform;
+}
+
+.glow-field__bloom {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse 80% 60% at 50% 0%,
+    rgba(139, 124, 255, 0.32) 0%,
+    rgba(139, 124, 255, 0.12) 35%,
+    transparent 70%
+  );
+  opacity: calc(0.6 * var(--glow-intensity, 0.75));
+}
+
+.glow-field__dots {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background-image: radial-gradient(
+    circle,
+    rgba(199, 191, 255, 0.85) 1.4px,
+    transparent 2.4px
+  );
+  background-size: 24px 24px;
+  background-position: top center;
+  -webkit-mask-image: radial-gradient(
+    ellipse 70% 90% at 50% 0%,
+    rgba(0, 0, 0, 0.95) 0%,
+    rgba(0, 0, 0, 0.5) 35%,
+    transparent 75%
+  );
+  mask-image: radial-gradient(
+    ellipse 70% 90% at 50% 0%,
+    rgba(0, 0, 0, 0.95) 0%,
+    rgba(0, 0, 0, 0.5) 35%,
+    transparent 75%
+  );
+  opacity: calc(0.55 * var(--glow-intensity, 0.75));
+}
+
+@keyframes glow-rotate {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glow-field__rotor { animation: none; }
+  .glow-field__dots  { opacity: 0.4; }
+  .glow-field__bloom { opacity: 0.4; }
+}
+
+/* ScrollReveal — IntersectionObserver-based entrance animation */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.scroll-reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============================================================
+   CSS-only replacements for Framer Motion wrappers
+   ============================================================ */
+
+/* Section step — gentle fade-in (CSS only) */
+.section-step {
+  opacity: 0;
+  transform: translateY(8px);
+  animation: section-step-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: 0.05s;
+}
+@keyframes section-step-in {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Error message fade-in (used in inputs) */
+.error-message {
+  opacity: 0;
+  transform: translateY(-2px);
+  animation: error-fade-in 0.2s ease-out forwards;
+}
+@keyframes error-fade-in {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Select dropdown open animation (CSS only) */
+.select-dropdown {
+  opacity: 0;
+  transform: translateY(-4px) scaleY(0.96);
+  transform-origin: top center;
+  animation: select-dropdown-in 0.15s ease-out forwards;
+}
+@keyframes select-dropdown-in {
+  to { opacity: 1; transform: translateY(0) scaleY(1); }
+}
+
+/* Register dropdown (Navbar) — same fast CSS animation */
+.register-dropdown {
+  opacity: 0;
+  transform: translateY(-4px) scaleY(0.96);
+  transform-origin: top right;
+  animation: select-dropdown-in 0.15s ease-out forwards;
+}
+
+/* Chat panel open/close (CSS only) */
+.chat-panel {
+  opacity: 0;
+  animation: chat-panel-in 0.2s ease-out forwards;
+}
+.chat-panel--mobile {
+  transform: translateY(100%);
+  animation: chat-panel-mobile-in 0.25s cubic-bezier(0.28, 0.84, 0.42, 1) forwards;
+}
+.chat-panel--desktop {
+  transform: translateY(8px) scale(0.96);
+  animation: chat-panel-desktop-in 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes chat-panel-in { to { opacity: 1; } }
+@keyframes chat-panel-mobile-in { to { opacity: 1; transform: translateY(0); } }
+@keyframes chat-panel-desktop-in { to { opacity: 1; transform: translateY(0) scale(1); } }
+
+/* Chat backdrop fade-in */
+.chat-backdrop {
+  opacity: 0;
+  animation: chat-backdrop-in 0.15s ease-out forwards;
+}
+@keyframes chat-backdrop-in { to { opacity: 1; } }
+
+/* Online dot ping (replaces animate-ping) */
+.online-ping {
+  animation: online-ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+@keyframes online-ping {
+  0%, 100% { transform: scale(1); opacity: 0.75; }
+  75%, 100% { transform: scale(2); opacity: 0; }
+}
+
+/* Typing indicator dot (CSS keyframe) */
+.chat-typing-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.4;
+  animation: typing-bounce 1.2s ease-in-out infinite;
+}
+@keyframes typing-bounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+  30% { transform: translateY(-4px); opacity: 1; }
+}
+
+/* Chat message entry (CSS only) */
+.chat-message {
+  animation: chat-msg-in 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes chat-msg-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Welcome icon & questions (CSS only) */
+.welcome-icon {
+  animation: welcome-icon-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes welcome-icon-in {
+  from { opacity: 0; transform: scale(0.85); }
+  to { opacity: 1; transform: scale(1); }
+}
+.welcome-question {
+  opacity: 0;
+  animation: welcome-q-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes welcome-q-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Success card fade-in (replaces framer-motion y: 20) */
+.success-card-fade {
+  animation: success-fade-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes success-fade-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section-step,
+  .error-message,
+  .select-dropdown,
+  .register-dropdown,
+  .chat-panel,
+  .chat-backdrop,
+  .chat-message,
+  .welcome-icon,
+  .welcome-question,
+  .success-card-fade,
+  .online-ping,
+  .chat-typing-dot {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* Toast Animations (GSAP-managed, fallback CSS keyframes) */
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes toast-progress {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}
+
+.animate-toast-in {
+  animation: toast-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-toast-progress {
+  animation: toast-progress 5s linear forwards;
+}
+
+/* ============================================================
+   Chromium/Brave Compositing Fixes
+   ============================================================ */
+@supports (backdrop-filter: blur(1px)) {
+  .glass,
+  .glass-strong {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    isolation: isolate;
+  }
+}
+
+header,
+nav {
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+@media (-webkit-transform-3d: 1) {
+  .glass-strong {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+}
+
+/* ============================================================
+   FAQ Accordion Transitions
+   ============================================================ */
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0.3;
+  transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.accordion-content.open {
+  max-height: 800px;
+  opacity: 1;
+}
+
+/* FAQ Search input focus ring */
+.faq-search-input:focus {
+  box-shadow: 0 0 0 4px rgba(139, 124, 255, 0.15);
+}
+
+/* ============================================================
+   Premium Form Input Animations
+   ============================================================ */
+.input-premium {
+  transition: border-color 200ms cubic-bezier(0.16, 1, 0.3, 1),
+              background 200ms cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 200ms cubic-bezier(0.16, 1, 0.3, 1),
+              transform 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.input-premium:hover:not(:focus):not(:disabled) {
+  border-color: rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.input-premium:focus {
+  border-color: rgba(139, 124, 255, 0.5);
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: 0 0 0 4px rgba(139, 124, 255, 0.12);
+}
+
+.input-premium.input-error {
+  border-color: rgba(248, 113, 113, 0.5);
+  box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.1);
+}
+
+.input-premium.input-error:focus {
+  border-color: rgba(248, 113, 113, 0.7);
+  box-shadow: 0 0 0 4px rgba(248, 113, 113, 0.15);
+}
+
+/* Validation error message slide-down */
+@keyframes error-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.field-error {
+  animation: error-in 200ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ============================================================
+   Premium Icon Micro-interactions
+   ============================================================ */
+.icon-shift {
+  transition: transform 250ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.group:hover .icon-shift-right {
+  transform: translateX(3px);
+}
+
+.group:hover .icon-shift-up {
+  transform: translateY(-2px);
+}
+
+.group:hover .icon-rotate-45 {
+  transform: rotate(45deg);
+}
+
+/* Subtle scale on group hover for icon containers */
+.icon-shrink {
+  transition: transform 250ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.group:hover .icon-shrink {
+  transform: scale(1.05);
+}
+
+/* ============================================================
+   Stagger children for groups
+   ============================================================ */
+.stagger-children > * {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 500ms cubic-bezier(0.16, 1, 0.3, 1),
+              transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.stagger-children.revealed > *:nth-child(1) { transition-delay: 0ms; }
+.stagger-children.revealed > *:nth-child(2) { transition-delay: 60ms; }
+.stagger-children.revealed > *:nth-child(3) { transition-delay: 120ms; }
+.stagger-children.revealed > *:nth-child(4) { transition-delay: 180ms; }
+.stagger-children.revealed > *:nth-child(5) { transition-delay: 240ms; }
+.stagger-children.revealed > *:nth-child(6) { transition-delay: 300ms; }
+.stagger-children.revealed > *:nth-child(7) { transition-delay: 360ms; }
+.stagger-children.revealed > *:nth-child(8) { transition-delay: 420ms; }
+
+.stagger-children.revealed > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============================================================
+   Soft pulse for live indicators
+   ============================================================ */
+@keyframes soft-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.92);
+  }
+}
+
+.animate-soft-pulse {
+  animation: soft-pulse 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* ============================================================
+   CTA card emphasis — subtle ambient glow
+   ============================================================ */
+.cta-emphasis {
+  transition: box-shadow 400ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cta-emphasis:hover {
+  box-shadow: inset 0 0 0 1px rgba(139, 124, 255, 0.25),
+              0 0 80px -10px rgba(139, 124, 255, 0.3);
+}
+
+/* ============================================================
+   Navbar link active dot indicator
+   ============================================================ */
+.nav-link {
+  position: relative;
+  transition: color 200ms cubic-bezier(0.16, 1, 0.3, 1),
+              background 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nav-link::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -2px;
+  width: 0;
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent, rgba(169, 155, 255, 0.8), transparent);
+  transform: translateX(-50%);
+  transition: width 250ms cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 1px;
+}
+
+.nav-link:hover::before {
+  width: 60%;
+}
+
+.nav-link.active::before {
+  width: 60%;
+}
+
+/* ============================================================
+   Chatbot — Markdown & Code Styles
+   ============================================================ */
+.chat-markdown {
+  word-break: break-word;
+}
+
+.chat-paragraph {
+  margin: 0;
+  line-height: 1.7;
+}
+
+.chat-paragraph + .chat-paragraph {
+  margin-top: 0.5em;
+}
+
+.chat-list-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  line-height: 1.7;
+}
+
+.chat-list-item + .chat-list-item {
+  margin-top: 0.25em;
+}
+
+.chat-bullet {
+  display: inline-flex;
+  margin-top: 0.6em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(139, 124, 255, 0.7);
+  flex-shrink: 0;
+}
+
+.chat-link {
+  color: rgba(169, 155, 255, 0.9);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 200ms ease;
+}
+
+.chat-link:hover {
+  color: rgba(169, 155, 255, 1);
+}
+
+.chat-inline-code {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 4px;
+  padding: 1px 5px;
+  font-size: 0.85em;
+  font-family: "SF Mono", "Fira Code", monospace;
+}
+
+.chat-code-block {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin: 8px 0;
+  overflow-x: auto;
+}
+
+.chat-code-block code {
+  font-family: "SF Mono", "Fira Code", monospace;
+  font-size: 0.85em;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.chat-input {
+  transition: border-color 250ms cubic-bezier(0.16, 1, 0.3, 1),
+              background 250ms cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 250ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.chat-input:focus {
+  border-color: rgba(139, 124, 255, 0.4) !important;
+  background: rgba(255, 255, 255, 0.07) !important;
+  box-shadow: 0 0 0 3px rgba(139, 124, 255, 0.1), 0 0 20px rgba(139, 124, 255, 0.05) !important;
+}
+
+.chat-typing-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(169, 155, 255, 0.6);
+}
+
+/* Chat custom scrollbar */
+#chat-message-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+#chat-message-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#chat-message-list::-webkit-scrollbar-thumb {
+  background: rgba(139, 124, 255, 0.2);
+  border-radius: 2px;
+}
+
+/* ============================================================
+   Respect user's motion preferences
+   ============================================================ */
+/* ============================================================
+   Premium Upload Zone — Drag & Drop Styling
+   ============================================================ */
+.upload-zone {
+  transition: border-color 300ms cubic-bezier(0.16, 1, 0.3, 1),
+              background 300ms cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.upload-zone:focus-visible {
+  outline: 2px solid rgba(139, 124, 255, 0.5);
+  outline-offset: 2px;
+}
+
+/* ============================================================
+   Button Ripple — Framer Motion Tap Animation
+   ============================================================ */
+.btn-ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+/* ============================================================
+   Premium Input — Floating Label Override
+   ============================================================ */
+.input-premium:-webkit-autofill,
+.input-premium:-webkit-autofill:hover,
+.input-premium:-webkit-autofill:focus {
+  -webkit-text-fill-color: #fcfbf8;
+  -webkit-box-shadow: 0 0 0px 1000px rgba(15, 15, 25, 1) inset;
+  transition: background-color 5000s ease-in-out 0s;
+  caret-color: #fcfbf8;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .scroll-reveal,
+  .stagger-children > * {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .depth-hover {
+    translate: none !important;
+  }
+}
