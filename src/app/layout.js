@@ -115,7 +115,10 @@ export default function RootLayout({ children }) {
         <meta name="format-detection" content="telephone=no" />
         <link rel="alternate" type="application/rss+xml" title="Calip.io Blog &amp; Updates" href="/feed.xml" />
       </head>
-      <body className="min-h-screen bg-background text-foreground overflow-x-hidden">
+      <body
+        className="min-h-screen bg-background text-foreground overflow-x-hidden"
+        suppressHydrationWarning
+      >
         <ChatProvider>
           <SmoothScroll>
             {children}
