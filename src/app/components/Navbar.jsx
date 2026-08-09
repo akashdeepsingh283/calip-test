@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useLenis } from "./SmoothScroll";
-import { Menu, X, ChevronDown, Briefcase, Rocket } from "lucide-react";
+import { Menu, X, ChevronDown, Briefcase, Rocket, LayoutDashboard } from "lucide-react";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -149,7 +149,19 @@ export default function Navbar() {
             </nav>
           </div>
 
-          <div className="flex justify-end relative" ref={registerRef}>
+          <div className="flex justify-end items-center gap-2 relative" ref={registerRef}>
+            <Link
+              href="/dashboard"
+              aria-current={pathname === "/dashboard" ? "page" : undefined}
+              className={`inline-flex items-center gap-1.5 rounded-full px-5 py-2 text-sm font-medium transition-colors duration-200 border ${
+                pathname === "/dashboard"
+                  ? "text-foreground border-white/20 bg-white/10"
+                  : "text-muted-foreground border-white/10 hover:text-foreground hover:border-white/20 hover:bg-white/5"
+              }`}
+            >
+              <LayoutDashboard className="h-3.5 w-3.5" aria-hidden="true" />
+              Dashboard
+            </Link>
             <button
               onClick={() => setRegisterOpen((p) => !p)}
               className="btn-primary-glow btn-press inline-flex items-center gap-1.5 rounded-full px-5 py-2 text-sm font-medium text-white"
@@ -254,6 +266,16 @@ className={`nav-link rounded-full px-4 py-2.5 text-sm transition-colors block ${
                 );
               })}
               <li className="flex flex-col gap-2 mt-1">
+                <Link
+                  href="/dashboard"
+                  onClick={() => setMenuOpen(false)}
+                  className="flex items-center gap-3 rounded-full glass px-4 py-2.5 text-sm text-foreground transition-colors hover:bg-white/10"
+                >
+                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-primary/10">
+                    <LayoutDashboard className="h-3.5 w-3.5 text-primary-glow" />
+                  </span>
+                  <span className="font-medium">Dashboard</span>
+                </Link>
                 <Link
                   href="/startup"
                   onClick={() => setMenuOpen(false)}
