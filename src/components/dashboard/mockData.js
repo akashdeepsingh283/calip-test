@@ -55,6 +55,7 @@ export const recentActivityData = [
     amount: "₹+2,400",
     time: "2h ago",
     icon: "trending-up",
+    txHash: "0xa1b2c3d4e5f678901234567890abcdef1234567890abcdef1234567890abcdef",
   },
   {
     id: 2,
@@ -63,6 +64,7 @@ export const recentActivityData = [
     amount: "₹+84",
     time: "1h ago",
     icon: "trending-up",
+    txHash: "0xb2c3d4e5f678901234567890abcdef1234567890abcdef1234567890abcdef1",
   },
   {
     id: 3,
@@ -79,11 +81,12 @@ export const recentActivityData = [
     amount: "₹+1,800",
     time: "3d ago",
     icon: "trending-up",
+    txHash: "0xc3d4e5f678901234567890abcdef1234567890abcdef1234567890abcdef12",
   },
 ];
 
 export const aiRecommendationsData = [
   { initial: "N", title: "NeuroPay", category: "FinTech", score: 92 },
-  { initial: "G", title: "NeuroPay", category: "FinTech", score: 87 },
-  { initial: "Q", title: "NeuroPay", category: "FinTech", score: 89 },
+  { initial: "G", title: "GreenChain", category: "CleanTech", score: 87 },
+  { initial: "Q", title: "QuantumLens", category: "AR/VR", score: 89 },
 ];

@@ -22,7 +22,7 @@ export default function InsightsPage() {
     <div className={`${sora.className} min-h-screen bg-[#fafaf8]`}>
       <Navbar activePage="insights" />
 
-      <main className="mx-auto max-w-[1440px] px-[30px] pb-[30px]">
+      <main className="mx-auto max-w-[1440px] px-4 pb-10 sm:px-[30px] sm:pb-[30px]">
         <div className="pt-[19.65px]">
           <InsightsHeader />
         </div>

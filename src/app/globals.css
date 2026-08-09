@@ -21,6 +21,14 @@ body {
   background-color: var(--color-background);
   color: var(--color-foreground);
   font-family: var(--font-sans);
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  body {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
 }
 
 html.menu-open {

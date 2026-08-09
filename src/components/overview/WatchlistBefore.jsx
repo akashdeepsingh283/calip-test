@@ -6,17 +6,17 @@ export default function WatchlistBefore() {
     <div className="min-h-screen bg-[#fbfbf9]">
       <Navbar activePage="watchlist" />
 
-      <main className="mx-auto max-w-[1440px] px-[30px] pb-10">
+      <main className="mx-auto max-w-[1440px] px-4 pb-10 sm:px-[30px]">
         <div className="pt-5">
-          <h1 className="text-[30px] font-bold leading-none text-[#1a1a2e]">
+          <h1 className="text-[24px] font-bold leading-none text-[#1a1a2e] sm:text-[30px]">
             Watchlist
           </h1>
-          <p className="mt-[5px] text-[18px] text-[#6b7280]">
+          <p className="mt-[5px] text-[16px] text-[#6b7280] sm:text-[18px]">
             Track your saved companies and stay updated on their auction activity.
           </p>
         </div>
 
-        <div className="mt-[65px] flex justify-center">
+        <div className="mt-12 flex justify-center sm:mt-[65px]">
           <button
             type="button"
             className="flex h-[50px] w-[280px] items-center justify-center gap-2 rounded-lg bg-[#6366f1] text-white transition-colors hover:bg-[#5558e3]"

@@ -23,25 +23,25 @@ export default function AnalyticsPage() {
     <div className={`${sora.className} min-h-screen bg-[#fafaf8]`}>
       <Navbar activePage="analytics" />
 
-      <main className="mx-auto max-w-[1440px] px-[30px] pb-[30px]">
-        <div className="pt-[19.65px]">
+      <main className="mx-auto max-w-[1440px] px-4 pb-10 sm:px-[30px]">
+        <div className="pt-5 sm:pt-[19.65px]">
           <AnalyticsHeader />
         </div>
 
-        <div className="mt-[54px] flex gap-[50px] pl-[9.5px]">
+        <div className="mt-6 flex flex-col gap-6 sm:mt-[54px] sm:flex-row sm:gap-[50px] sm:pl-[9.5px]">
           <TotalFundingSector />
           <DealStageDistribution />
         </div>
 
-        <div className="mt-[51.9px]">
+        <div className="mt-6 sm:mt-[51.9px]">
           <MonthlyActivity />
         </div>
 
-        <div className="mt-[61px]">
+        <div className="mt-6 sm:mt-[61px]">
           <AIScoreGrowthBubbleChart />
         </div>
 
-        <div className="mt-[61px] pl-[4px]">
+        <div className="mt-6 sm:mt-[61px] sm:pl-[4px]">
           <StartupComparisonTable />
         </div>
       </main>

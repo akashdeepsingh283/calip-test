@@ -41,12 +41,12 @@ export const watchlistCompanies = [
   },
   {
     id: 5,
-    initial: "G",
-    name: "GreenChain",
-    raised: "₹ 800k raised",
-    category: "ClimaTech",
-    growth: "+67% growth",
+    initial: "A",
+    name: "AeroFlow",
+    raised: "₹ 650k raised",
+    category: "Aerospace",
+    growth: "+84% growth",
     growthGreen: true,
-    progress: 40,
+    progress: 35,
   },
 ];
