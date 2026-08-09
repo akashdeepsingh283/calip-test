@@ -19,8 +19,10 @@ const overviewDropdownItems = [
 ];
 
 const discoverToolsItems = [
+  { label: "Analytics", href: "/analytics", key: "analytics" },
   { label: "AI Insights", href: "/insights", key: "insights" },
   { label: "Trending News", href: "/trending", key: "trending" },
+  { label: "Glossary", href: "/glossary", key: "glossary" },
 ];
 
 const navLinks = [
@@ -218,13 +220,13 @@ export default function Navbar({ activePage = "overview" }) {
             <Search className="h-5 w-5 text-[#374151]" strokeWidth={1.5} />
           </button>
 
-          <button
-            type="button"
+          <Link
+            href="/wallet"
             className="flex h-[40px] w-[174px] items-center gap-[5px] rounded-[15px] bg-[#5346ae] px-[13px] text-white transition-colors hover:bg-[#473a99]"
           >
             <Wallet className="h-[25px] w-[25px]" strokeWidth={1.5} />
             <span className="text-[15px] font-medium leading-none">Connect Wallet</span>
-          </button>
+          </Link>
 
           <Link
             href="/settings"

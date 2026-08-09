@@ -21,7 +21,7 @@ export const metadata = {
 export default function AnalyticsPage() {
   return (
     <div className={`${sora.className} min-h-screen bg-[#fafaf8]`}>
-      <Navbar activePage="overview" />
+      <Navbar activePage="analytics" />
 
       <main className="mx-auto max-w-[1440px] px-[30px] pb-[30px]">
         <div className="pt-[19.65px]">
