@@ -3,6 +3,7 @@ import "./globals.css";
 import SmoothScroll from "./components/SmoothScroll";
 import { ChatProvider } from "./context/ChatContext";
 import ChatBot from "./components/ChatBot";
+import { AuthProvider } from "../context/AuthContext";
 import { siteConfig, pages } from "./lib/seo";
 
 const inter = Inter({
@@ -126,12 +127,14 @@ export default function RootLayout({ children }) {
         className="min-h-screen bg-background text-foreground overflow-x-hidden"
         suppressHydrationWarning
       >
-        <ChatProvider>
-          <SmoothScroll>
-            {children}
-            <ChatBot />
-          </SmoothScroll>
-        </ChatProvider>
+        <AuthProvider>
+          <ChatProvider>
+            <SmoothScroll>
+              {children}
+              <ChatBot />
+            </SmoothScroll>
+          </ChatProvider>
+        </AuthProvider>
       </body>
     </html>
   );

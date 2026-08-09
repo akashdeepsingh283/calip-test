@@ -5,7 +5,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useLenis } from "./SmoothScroll";
-import { Menu, X, ChevronDown, Briefcase, Rocket, LayoutDashboard } from "lucide-react";
+import { Menu, X, ChevronDown, Briefcase, Rocket, LayoutDashboard, LogIn, User, Wallet } from "lucide-react";
+import LoginModal from "../../components/auth/LoginModal";
+import { useAuth } from "../../context/AuthContext";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -19,18 +21,31 @@ export default function Navbar() {
   const [visible, setVisible] = useState(true);
   const [scrolled, setScrolled] = useState(false);
   const [registerOpen, setRegisterOpen] = useState(false);
+  const [loginOpen, setLoginOpen] = useState(false);
   const scrollRef = useRef({ lastY: 0, lastVisible: true });
   const registerRef = useRef(null);
+  const loginRef = useRef(null);
+  const loginModalRef = useRef(null);
   const pathname = usePathname();
   const lenisCtx = useLenis();
   const scrollTo = lenisCtx?.scrollTo;
   const stop = lenisCtx?.stop;
   const start = lenisCtx?.start;
+  const { user, logout } = useAuth();
 
   useEffect(() => {
     const handleClick = (e) => {
+      // Don't close anything if clicking inside the modal
+      if (loginModalRef.current && loginModalRef.current.contains(e.target)) {
+        return;
+      }
+      // Close register dropdown if clicking outside
       if (registerRef.current && !registerRef.current.contains(e.target)) {
         setRegisterOpen(false);
+      }
+      // Close login button dropdown if clicking outside
+      if (loginRef.current && !loginRef.current.contains(e.target)) {
+        setLoginOpen(false);
       }
     };
     document.addEventListener("mousedown", handleClick);
@@ -40,7 +55,10 @@ export default function Navbar() {
   useEffect(() => {
     if (!registerOpen) return;
     const handleKey = (e) => {
-      if (e.key === "Escape") setRegisterOpen(false);
+      if (e.key === "Escape") {
+        setRegisterOpen(false);
+        setLoginOpen(false);
+      }
     };
     document.addEventListener("keydown", handleKey);
     return () => document.removeEventListener("keydown", handleKey);
@@ -102,6 +120,9 @@ export default function Navbar() {
           aria-hidden="true"
         />
       )}
+      <div ref={loginModalRef}>
+        <LoginModal isOpen={loginOpen} onClose={() => setLoginOpen(false)} />
+      </div>
       <header
         role="banner"
         className={`fixed inset-x-0 top-4 z-50 px-4 transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] ${
@@ -162,21 +183,54 @@ export default function Navbar() {
               <LayoutDashboard className="h-3.5 w-3.5" aria-hidden="true" />
               Dashboard
             </Link>
-            <button
-              onClick={() => setRegisterOpen((p) => !p)}
-              className="btn-primary-glow btn-press inline-flex items-center gap-1.5 rounded-full px-5 py-2 text-sm font-medium text-white"
-              aria-haspopup="true"
-              aria-expanded={registerOpen}
-            >
-              Register
-              <ChevronDown
-                className={`h-3.5 w-3.5 transition-transform duration-200 ${
-                  registerOpen ? "rotate-180" : ""
-                }`}
-                aria-hidden="true"
-              />
-            </button>
-            {registerOpen && (
+            {user ? (
+              <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2">
+                  {user.type === "wallet" ? (
+                    <Wallet className="h-3.5 w-3.5 text-primary-glow" />
+                  ) : (
+                    <User className="h-3.5 w-3.5 text-primary-glow" />
+                  )}
+                  <span className="text-sm text-foreground">
+                    {user.name}
+                  </span>
+                </div>
+                <button
+                  onClick={logout}
+                  className="rounded-full px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors border border-white/10 hover:border-white/20"
+                >
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setLoginOpen((p) => !p);
+                  }}
+                  className="btn-primary-glow btn-press inline-flex items-center gap-1.5 rounded-full px-5 py-2 text-sm font-medium text-white"
+                  aria-haspopup="true"
+                  aria-expanded={loginOpen}
+                  ref={loginRef}
+                >
+                  <LogIn className="h-3.5 w-3.5" />
+                  Login
+                </button>
+                {loginOpen && (
+                  <div className="login-dropdown absolute top-full right-0 mt-2 w-56 rounded-xl border border-white/[0.1] bg-[#0d0d14]/95 backdrop-blur-md shadow-[0_8px_40px_rgba(0,0,0,0.4)] overflow-hidden z-50">
+                    <button
+                      onClick={() => { setLoginOpen(false); setRegisterOpen(false); }}
+                      className="w-full text-left flex items-center gap-3 px-4 py-3.5 text-sm text-muted-foreground hover:text-foreground hover:bg-white/[0.04] transition-colors duration-150"
+                    >
+                      <User className="h-4 w-4" />
+                      <span>Sign In / Register</span>
+                    </button>
+                  </div>
+                )}
+              </>
+            )}
+            {registerOpen && !user && (
               <div
                 className="register-dropdown absolute top-full right-0 mt-2 w-56 rounded-xl border border-white/[0.1] bg-[#0d0d14]/95 backdrop-blur-md shadow-[0_8px_40px_rgba(0,0,0,0.4)] overflow-hidden z-50"
                 role="menu"
