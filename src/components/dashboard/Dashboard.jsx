@@ -9,7 +9,7 @@ import { statsData } from "./mockData";
 export default function Dashboard() {
   return (
     <div className="min-h-screen bg-[#fbfbf9]">
-      <Navbar />
+      <Navbar activePage="dashboard" />
 
       <main className="mx-auto max-w-[1440px] px-[30px] pb-10">
         <div className="pt-5">

@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -9,16 +12,40 @@ import {
   Wallet,
 } from "lucide-react";
 
+const overviewDropdownItems = [
+  { label: "Dashboard", href: "/dashboard", key: "dashboard" },
+  { label: "Watchlist", href: "/overview", key: "watchlist" },
+  { label: "Trending News", href: "/trending", key: "trending" },
+  { label: "Performance Summary", href: "/performance-summary", key: "performance-summary" },
+];
+
 const navLinks = [
-  { label: "Overview", href: "/overview", key: "overview" },
+  { label: "Overview", key: "overview" },
   { label: "Auction", href: "/auction/live", key: "auction" },
   { label: "Companies", href: "/companies", key: "companies" },
   { label: "Founders", href: "/founders", key: "founders" },
 ];
 
 export default function Navbar({ activePage = "overview" }) {
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  const isOverviewActive =
+    activePage === "overview" ||
+    overviewDropdownItems.some((item) => item.key === activePage);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   return (
-    <header className="w-full border-b border-[#e5e7eb] bg-[#fafaf7]">
+    <header className="relative z-[9999] w-full border-b border-[#e5e7eb] bg-[#fafaf7]">
       <div className="mx-auto grid h-[95px] max-w-[1440px] grid-cols-1 items-center gap-4 px-[30px] lg:grid-cols-[auto_1fr_auto] lg:gap-0">
         <div className="flex items-center justify-between lg:justify-start">
           <Link href="/" aria-label="Calip home">
@@ -53,7 +80,52 @@ export default function Navbar({ activePage = "overview" }) {
         <nav className="hidden items-center justify-center gap-[25px] lg:flex">
           {navLinks.map((link) => {
             const isActive = link.key === activePage;
-            return (
+            return link.key === "overview" ? (
+              <div key={link.key} className="relative" ref={dropdownRef}>
+                <button
+                  type="button"
+                  onClick={() => setDropdownOpen((prev) => !prev)}
+                  aria-expanded={dropdownOpen}
+                  className={
+                    isOverviewActive
+                      ? "flex h-[34px] items-center gap-2 rounded-[10px] bg-[#eef2ff] px-[11px] text-[16px] font-medium text-[#4f46e5]"
+                      : "text-[16px] font-medium text-[#4b5563] hover:text-[#1a1a2e]"
+                  }
+                >
+                  <span className="flex items-center gap-2">
+                    {link.label}
+                    <ChevronDown
+                      className={`h-[10px] w-5 transition-transform ${dropdownOpen ? "rotate-180" : ""} ${
+                        isOverviewActive ? "text-[#4f46e5]" : "text-[#4b5563]"
+                      }`}
+                      strokeWidth={2}
+                    />
+                  </span>
+                </button>
+
+                {dropdownOpen && (
+                  <div className="absolute left-0 top-full z-[9999] mt-2 w-[200px] rounded-[12px] border border-[#e5e7eb] bg-white p-[6px] shadow-lg">
+                    {overviewDropdownItems.map((item) => {
+                      const isItemActive = item.key === activePage;
+                      return (
+                        <Link
+                          key={item.key}
+                          href={item.href}
+                          onClick={() => setDropdownOpen(false)}
+                          className={
+                            isItemActive
+                              ? "flex h-[36px] items-center rounded-[8px] bg-[#eef2ff] px-[11px] text-[15px] font-medium text-[#4f46e5]"
+                              : "flex h-[36px] items-center rounded-[8px] px-[11px] text-[15px] font-medium text-[#4b5563] hover:bg-[#f4f5f7] hover:text-[#1a1a2e]"
+                          }
+                        >
+                          {item.label}
+                        </Link>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            ) : (
               <Link
                 key={link.key}
                 href={link.href}
@@ -64,12 +136,6 @@ export default function Navbar({ activePage = "overview" }) {
                 }
               >
                 {link.label}
-                {link.key === "overview" && (
-                  <ChevronDown
-                    className={`h-[10px] w-5 ${isActive ? "text-[#4f46e5]" : "text-[#4b5563]"}`}
-                    strokeWidth={2}
-                  />
-                )}
               </Link>
             );
           })}

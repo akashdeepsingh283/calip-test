@@ -7,7 +7,7 @@ import { featuredArticles, latestArticles } from "./trendingNewsMockData";
 export default function TrendingNews() {
   return (
     <div className="min-h-screen bg-[#fbfbf9]">
-      <Navbar />
+      <Navbar activePage="trending" />
 
       <main className="mx-auto max-w-[1440px] px-[30px] pb-10">
         <div className="pt-5">
