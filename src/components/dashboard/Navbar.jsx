@@ -15,8 +15,12 @@ import {
 const overviewDropdownItems = [
   { label: "Dashboard", href: "/dashboard", key: "dashboard" },
   { label: "Watchlist", href: "/overview", key: "watchlist" },
-  { label: "Trending News", href: "/trending", key: "trending" },
   { label: "Performance Summary", href: "/performance-summary", key: "performance-summary" },
+];
+
+const discoverToolsItems = [
+  { label: "AI Insights", href: "/insights", key: "insights" },
+  { label: "Trending News", href: "/trending", key: "trending" },
 ];
 
 const navLinks = [
@@ -28,16 +32,26 @@ const navLinks = [
 
 export default function Navbar({ activePage = "overview" }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [toolsDropdownOpen, setToolsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const toolsDropdownRef = useRef(null);
 
   const isOverviewActive =
     activePage === "overview" ||
     overviewDropdownItems.some((item) => item.key === activePage);
 
+  const isToolsActive = discoverToolsItems.some((item) => item.key === activePage);
+
   useEffect(() => {
     function handleClickOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setDropdownOpen(false);
+      }
+      if (
+        toolsDropdownRef.current &&
+        !toolsDropdownRef.current.contains(event.target)
+      ) {
+        setToolsDropdownOpen(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -140,20 +154,59 @@ export default function Navbar({ activePage = "overview" }) {
             );
           })}
 
-          <button
-            type="button"
-            className="flex items-center gap-2 text-[16px] font-medium text-[#4b5563]"
-          >
-            Discover Tools
-            <ChevronDown className="h-[10px] w-5 text-[#4b5563]" strokeWidth={2} />
-          </button>
+          <div className="relative" ref={toolsDropdownRef}>
+            <button
+              type="button"
+              onClick={() => setToolsDropdownOpen((prev) => !prev)}
+              aria-expanded={toolsDropdownOpen}
+              className={
+                isToolsActive
+                  ? "flex h-[34px] items-center gap-2 rounded-[10px] bg-[#eef2ff] px-[11px] text-[16px] font-medium text-[#4f46e5]"
+                  : "flex items-center gap-2 text-[16px] font-medium text-[#4b5563] hover:text-[#1a1a2e]"
+              }
+            >
+              Discover Tools
+              <ChevronDown
+                className={`h-[10px] w-5 transition-transform ${toolsDropdownOpen ? "rotate-180" : ""} ${
+                  isToolsActive ? "text-[#4f46e5]" : "text-[#4b5563]"
+                }`}
+                strokeWidth={2}
+              />
+            </button>
 
-          <a
-            href="#"
-            className="text-[16px] font-medium text-[#4b5563] hover:text-[#1a1a2e]"
+            {toolsDropdownOpen && (
+              <div className="absolute left-0 top-full z-[9999] mt-2 w-[200px] rounded-[12px] border border-[#e5e7eb] bg-white p-[6px] shadow-lg">
+                {discoverToolsItems.map((item) => {
+                  const isItemActive = item.key === activePage;
+                  return (
+                    <Link
+                      key={item.key}
+                      href={item.href}
+                      onClick={() => setToolsDropdownOpen(false)}
+                      className={
+                        isItemActive
+                          ? "flex h-[36px] items-center rounded-[8px] bg-[#eef2ff] px-[11px] text-[15px] font-medium text-[#4f46e5]"
+                          : "flex h-[36px] items-center rounded-[8px] px-[11px] text-[15px] font-medium text-[#4b5563] hover:bg-[#f4f5f7] hover:text-[#1a1a2e]"
+                      }
+                    >
+                      {item.label}
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+
+          <Link
+            href="/faq"
+            className={
+              activePage === "faq"
+                ? "flex h-[34px] items-center rounded-[10px] bg-[#eef2ff] px-[11px] text-[16px] font-medium text-[#4f46e5]"
+                : "text-[16px] font-medium text-[#4b5563] hover:text-[#1a1a2e]"
+            }
           >
             FAQs
-          </a>
+          </Link>
         </nav>
 
         <div className="hidden items-center justify-end gap-[15px] lg:flex">

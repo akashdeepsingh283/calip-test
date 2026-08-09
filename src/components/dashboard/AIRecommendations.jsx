@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Unlock } from "lucide-react";
 import { aiRecommendationsData } from "./mockData";
 
@@ -35,12 +36,12 @@ export default function AIRecommendations() {
             <p className="mt-2 max-w-[440px] text-center text-[18px] font-medium leading-snug text-[#1a1a2e]">
               Unlock Calip.io Pro to access new features
             </p>
-            <button
-              type="button"
+            <Link
+              href="/pro"
               className="mt-[5px] rounded-xl bg-[#584DB0] px-8 py-[10px] text-[16px] font-semibold text-white shadow-[0_4px_14px_rgba(88,77,176,0.35)] transition-colors hover:bg-[#4a3f9a]"
             >
               Activate with @99/ month
-            </button>
+            </Link>
           </div>
         </div>
       </div>
